@@ -8,15 +8,12 @@ d11 = 6  # kg*s^-1
 d22 = 8  # kg*s^-1
 d33 = 1.35  # kg*m^2*s^-1
 
-# Placeholder functions for the matrices
 def T(eta):
-    # For simplification, let's use an identity matrix. Adjust as needed.
     return np.array([[np.cos(eta[2]), -np.sin(eta[2]), 0], 
                      [np.sin(eta[2]), np.cos(eta[2]), 0], 
                      [0, 0, 1]])
 
 def C(v):
-    # For simplification, let's use an identity matrix. Adjust as needed.
     return np.array([[0, 0, -m22*v[1]], 
                      [0, 0, m11*v[0]], 
                      [m22*v[1], -m11*v[0], 0]])
@@ -28,9 +25,9 @@ def D(v):
                      [0, 0, d33]])
 
 def ASV_dynamics(eta, v, tau, tau_env):
-    M_inv = np.linalg.inv(np.array([[12, 0, 0], 
-                                   [0, 24, 0], 
-                                   [0, 0, 1.5]]))  # Identity matrix as placeholder. Adjust as needed.
+    M_inv = np.linalg.inv(np.array([[m11, 0, 0], 
+                                   [0, m22, 0], 
+                                   [0, 0, m33]]))
     eta_dot = np.dot(T(eta), v)
     v_dot = np.dot(M_inv, tau + tau_env - np.dot(C(v) + D(v), v))
     return eta_dot, v_dot
