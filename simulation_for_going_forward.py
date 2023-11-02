@@ -1,24 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+m11 = 12  # kg
+m22 = 24  # kg
+m33 = 1.5  # kg*m^2
+d11 = 6  # kg*s^-1
+d22 = 8  # kg*s^-1
+d33 = 1.35  # kg*m^2*s^-1
+
 # Placeholder functions for the matrices
 def T(eta):
     # For simplification, let's use an identity matrix. Adjust as needed.
-    return np.array([[1, 0, 0], 
-                     [0, 1, 0], 
+    return np.array([[np.cos(eta[2]), -np.sin(eta[2]), 0], 
+                     [np.sin(eta[2]), np.cos(eta[2]), 0], 
                      [0, 0, 1]])
 
 def C(v):
     # For simplification, let's use an identity matrix. Adjust as needed.
-    return np.array([[0, 0, -24*v[1]], 
-                     [0, 0, 12*v[0]], 
-                     [24*v[1], -12*v[0], 0]])
+    return np.array([[0, 0, -m22*v[1]], 
+                     [0, 0, m11*v[0]], 
+                     [m22*v[1], -m11*v[0], 0]])
 
 def D(v):
     # For simplification, let's use an identity matrix. Adjust as needed based on v.
-    return np.array([[6, 0, 0], 
-                     [0, 8, 0], 
-                     [0, 0, 1.35]])
+    return np.array([[d11, 0, 0], 
+                     [0, d22, 0], 
+                     [0, 0, d33]])
 
 def ASV_dynamics(eta, v, tau, tau_env):
     M_inv = np.linalg.inv(np.array([[12, 0, 0], 
@@ -37,7 +44,7 @@ eta = np.array([0.0, 0.0, 0.0])  # [x, y, psi]
 v = np.array([0.0, 0.0, 0.0])  # [u, v, w]
 
 # Placeholder control and environmental forces/torques
-tau = np.array([1, 0, 0.1])
+tau = np.array([1, 0, 0])
 tau_env = np.array([0, 0, 0])
 
 # Lists to store x and y trajectories
